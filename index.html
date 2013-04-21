@@ -1,0 +1,58 @@
+<html>
+<head>
+	<title>cvc_copy</title>
+	<style type="text/css">
+		body {
+			background-color: #333;
+			padding: 0px;
+			margin: 0px;
+		}
+	</style>
+</head>
+<body onload="new m.cvcApp">
+<canvas id ="canvas"></canvas>
+<script type="text/javascript" src="http://code.createjs.com/easeljs-0.6.0.min.js"></script>
+
+<script type="text/javascript">
+	var c = createjs;
+	var mainObj = {};
+	var m = mainObj;
+	
+	m.cvcApp = function() {
+		var canvas = document.getElementById("canvas");
+		var stage = new c.Stage(canvas);
+		var bgrect = new c.Shape;
+		var centContainer = new c.Container;
+		var placeholder = new c.Shape;
+				
+		c.Ticker.setFPS(30);
+		c.Ticker.addListener(stage);
+		
+		stage.onTick = function(e){
+			//console.log("stage tick here", e);
+		}
+		function resize(){
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			bgrect.graphics.clear().beginFill("333").drawRect(0,0,canvas.width,canvas.height);
+			centContainer.x = canvas.width/2;
+			centContainer.y = canvas.height/2;
+		}	
+		resize();
+		window.onresize = resize;
+		
+		stage.onClick = function(e){
+			
+		}
+		
+		stage.addChild(bgrect);
+		placeholder.graphics.beginFill("F00").drawCircle(0,0,30);
+		centContainer.addChild(placeholder);
+		stage.addChild(centContainer);
+	}
+	
+
+</script>
+
+</body>
+</html>
