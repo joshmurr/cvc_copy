@@ -17,20 +17,14 @@
 	var c = createjs;
 	var mainObj = {};
 	var m = mainObj;
+	var p;
 	
 	m.cvcApp = function() {
 		var canvas = document.getElementById("canvas");
 		var stage = new c.Stage(canvas);
 		var bgrect = new c.Shape;
 		var centContainer = new c.Container;
-		var placeholder = new c.Shape;
 				
-		c.Ticker.setFPS(30);
-		c.Ticker.addListener(stage);
-		
-		stage.onTick = function(e){
-			//console.log("stage tick here", e);
-		}
 		function resize(){
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
@@ -38,21 +32,40 @@
 			centContainer.x = canvas.width/2;
 			centContainer.y = canvas.height/2;
 		}	
+		
 		resize();
 		window.onresize = resize;
-		
-		stage.onClick = function(e){
-			
-		}
-		
+		c.Ticker.setFPS(30);
+		c.Ticker.addListener(stage);
 		stage.addChild(bgrect);
-		placeholder.graphics.beginFill("F00").drawCircle(0,0,30);
-		centContainer.addChild(placeholder);
 		stage.addChild(centContainer);
+		centContainer.addChild(new m.Noun);
 	}
+	
+	m.Noun = function() {this.initialize();};
+	p = m.Noun.prototype = new c.Container;
+	p.Container_intialize = p.initialize;
+	
+	var sprite = {
+		images: ["characters.png"],
+		frames: {width:32, height: 32, count: 16},
+		animations: {
+			loop:[0,8,"loop", 8]
+		}
+	};
+	
+	m.Noun.spriteSheet = new c.SpriteSheet(sprite);
+	p.initialize = function () {
+		this.Container_intialize;
+		var noun = this;
+		var anim = new c.BitmapAnimation(m.Noun.spriteSheet);
+		noun.addChild(anim);
+		anim.gotoAndStop(Math.floor(Math.random()* m.Noun.spriteSheet._numFrames));
+	};
+	
 	
 
 </script>
-
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </body>
 </html>
